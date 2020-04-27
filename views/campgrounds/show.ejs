@@ -1,0 +1,107 @@
+<%- include("../partials/header") %>
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-3">
+            <p class="lead">YelpCamp</p>
+            <div class="list-group">
+                <li class="list-group-item active">Info 1</li>
+                <li class="list-group-item">Info 2</li>
+                <li class="list-group-item">Info 3</li>
+            </div>
+        </div>
+        <div class="col-md-9">
+            <div class="container-fluid border px-0 pb-4">
+                <img src="<%= camp.image %>" class="mb-5 w-100 img-fluid" style="height: 50vh; object-fit: cover;">
+                <div class="container px-5">
+                    <div class="row">
+                        <div class="col-md-6 text-info">
+                            <h2><strong><%= camp.name %></strong></h2>
+                        </div>
+                        <div class="col-md-6 text-md-right text-muted">
+                            <h3>$<%= 9.00 %>/night</h3>
+                            <% if(!user || camp.author.username != user.username) { %>
+                                <p class="text-muted"><em>Submitted by <%= camp.author.username %></em></p>
+                            <% } %>
+                        </div>
+                    </div>
+                    <p class="text-left"><%= camp.description %></p>
+                    <div class="row">
+                        <div class="col-lg-6 text-warning">
+                            <h4>
+                                <div class="d-inline-block float-left mr-3">
+                                    <% for(let i=0; i<5; i++) { %>
+                                        <i class="fas fa-star"></i>
+                                    <% } %>
+                                </div>
+                                <div class="d-inline-block">
+                                    <%= 5 %> Stars
+                                </div>
+                            </h4>
+                        </div>
+                        <div class="col-lg-6 text-success text-lg-right">
+                            <h4>
+                                <%= camp.comments.length %> reviews
+                            </h4>
+                        </div>
+                        <% if( user && user.id == camp.author.id ) { %>
+                        <div class="col-12 text-left mt-3">
+                            <a role="button" href="/campgrounds/<%= camp.id %>/edit" class="btn btn-warning text-white">Edit</a>
+                            <form action="/campgrounds/<%= camp.id %>?_method=delete" method="POST" class="ml-2 d-inline">
+                                <button class="btn btn-danger text-white">Delete</a>
+                            </form>
+                        </div>
+                        <% } %>
+                    </div>
+                </div>
+            </div>
+            <div class="container border mt-4 px-5">
+                <div class="text-center mb-4 pt-3">
+                    <h3><i class="fas fa-comments"></i> COMMENTS</h3>
+                </div>
+                <% if(camp.comments.length > 0) { %>
+                    <% for(const comment of camp.comments) { %>
+                        <div class="container-fluid mb-4">
+                            <p class="mb-2 lead">
+                                <i class="fas fa-quote-right text-muted" style="font-size: 0.75em;"></i>
+                                <%= comment.text %> 
+                                <i class="fas fa-quote-left text-muted" style="font-size: 0.75em;"></i>
+                            </p>
+                            <p class="mb-0 pb-0">- <span class="text-success"><%= comment.author.username %></span>
+                                <span class="ml-2">
+                                    <% for(let i=0; i<5; i++) { %>
+                                        <i class="fas fa-star" style="font-size: 0.8em;"></i>
+                                    <% } %>
+                                </span>
+                            </p>
+                            <p class="pt-0 mt-0 text-muted"><%= "10 days ago" %></p>
+                        </div>
+                    <% } %>
+                <% } else { %>
+                    <p>No comments yet...</p>
+                <% } %>
+                <hr class="my-5">
+                <div class="container mb-5">
+                    <div class="text-center">
+                        <button type="button" class="btn btn-info btn-lg" data-toggle="collapse" data-target="#collapseForm">Add review</button>
+                    </div>
+                    <div class="container-fluid collapse mb-5 mt-3" id="collapseForm">
+                        <form action="/campgrounds/<%= camp.id %>/comments?_method=post" method="POST">
+                            <div class="container">
+                                <fieldset class="form-group">
+                                    <label for="text">Comment:</label>
+                                    <textarea type="text" name="comment[text]" id="text" class="form-control"></textarea>
+                                </fieldset>
+                                <fieldset class="form-group text-center mb-0 mt-5">
+                                    <button class="btn btn-lg btn-primary btn-block">Submit</button>
+                                </fieldset>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<%- include("../partials/footer") %> 

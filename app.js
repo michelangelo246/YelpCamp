@@ -1,0 +1,41 @@
+const express = require("express");
+const bodyParser = require("body-parser");
+const mongoose = require("mongoose");
+const expressSession = require("express-session");
+const passport = require("passport");
+const passportLocal = require("passport-local");
+const methodOverride = require("method-override");
+const userModel = require("./models/user");
+const seedDB = require("./seed");
+const app = express();
+
+const campgroundsRoutes = require("./routes/campgrounds");
+const commentsRoutes = require("./routes/comments");
+const indexRoutes = require("./routes/index");
+
+app.set("view engine", "ejs");
+app.use(methodOverride("_method"));
+app.use(expressSession({secret: "This is a secret", resave: false, saveUninitialized: false}));
+app.use(passport.initialize());
+app.use(passport.session());
+app.use(express.static(__dirname + "/public"));
+app.use(bodyParser.urlencoded({extended: true}));
+
+mongoose.connect("mongodb://localhost/campgrounds", { useNewUrlParser: true, useUnifiedTopology: true, useFindAndModify: false });
+passport.use(new passportLocal(userModel.authenticate()));
+passport.serializeUser(userModel.serializeUser());
+passport.deserializeUser(userModel.deserializeUser());
+
+app.use((req, res, next) => { // called in all routes as middleware
+    res.locals.user = req.user;
+    return next();
+});
+app.use("/", indexRoutes);
+app.use("/campgrounds", campgroundsRoutes);
+app.use("/campgrounds", commentsRoutes);
+
+seedDB();
+
+app.listen(3000, process.env.IP, () => {
+    console.log("YelpCamp server running on port 3000");
+});
