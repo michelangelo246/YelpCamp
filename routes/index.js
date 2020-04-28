@@ -15,10 +15,11 @@ router.get("/register", (req, res) => {
 router.post("/register", (req, res) => {
     userModel.register(new userModel({ username: req.body.username }), req.body.password, (err, user) => {
         if(err){
-            console.log(err);
             res.render("register", { "error": err.message });
-        }else{
+        }
+        else{
             passport.authenticate("local")(req, res, () => {
+                req.flash("success", "Welcome, " + user.username);
                 res.redirect("/campgrounds");
             });
         }
@@ -29,8 +30,8 @@ router.get("/login", (req, res) => {
     res.render("login");
 });
 
-router.post("/login", passport.authenticate("local", { successRedirect: "/campgrounds", failureRedirect: "/login", failureFlash: true, successFlash: true }), (req, res) => { // index - login
-
+router.post("/login", passport.authenticate("local", { successRedirect: "/campgrounds", failureRedirect: "/login", failureFlash: true }), (req, res) => {
+    
 });
 
 router.get("/logout", (req, res) => {

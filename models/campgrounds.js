@@ -20,11 +20,17 @@ const campgroundSchema = new mongoose.Schema({
 
 // middleware para executar em chamadas deleteOne em modelos (query, em vez de documentos)
 campgroundSchema.pre('deleteOne', { document:false, query: true }, async function(next) {
-    const camp = await this.model.findById(this._conditions._id);
-    await commentObject.deleteMany({
-		_id: { $in: camp.comments }
-    });
-    next();
+    try{
+        const camp = await this.model.findById(this._conditions._id);
+        await commentObject.deleteMany({
+	    	_id: { $in: camp.comments }
+        });
+        next();
+    }
+    catch(err){
+        console.log("Erro em pre middleware deleteOne", err);
+        next();
+    }
 });
 
 module.exports = mongoose.model("campground", campgroundSchema);
