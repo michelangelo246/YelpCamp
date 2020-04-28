@@ -1,5 +1,6 @@
 <%- include("../partials/header") %>
 
+
 <div class="container-fluid">
     <div class="row">
         <div class="col-md-3">
@@ -75,33 +76,50 @@
                                 </span>
                             </p>
                             <p class="pt-0 mt-0 text-muted"><%= "10 days ago" %></p>
+                            <% if(user && comment.author.id.equals( user.id )) { %>
+                                <button class="comment-show-edit-button btn btn-warning text-light btn-sm">Edit</button>
+                                <form action="/campgrounds/<%= camp.id %>/comments/<%= comment.id %>?_method=DELETE" method="post" class="d-inline-block">
+                                    <button class="comment-show-edit-button btn btn-danger btn-sm">Remove</button>
+                                </form>
+                            <% } %>
+                        </div>
+                        <div class="container-fluid mb-4 d-none">
+                            <form action="/campgrounds/<%= camp.id %>/comments/<%= comment.id %>?_method=put" method="post">
+                                <textarea class="form-control mb-3" name="comment[text]" id="" cols="30" rows="3"><%= comment.text %></textarea>
+                                <button type="submit" class="btn btn-success">Save</button>
+                                <button type="button" class="comment-edit-form-button-cancel btn btn-danger">Cancel</button>
+                            </form>
                         </div>
                     <% } %>
                 <% } else { %>
                     <p>No comments yet...</p>
                 <% } %>
-                <hr class="my-5">
-                <div class="container mb-5">
-                    <div class="text-center">
-                        <button type="button" class="btn btn-info btn-lg" data-toggle="collapse" data-target="#collapseForm">Add review</button>
+                <% if(user) { %>
+                    <hr class="my-5">
+                    <div class="container mb-5">
+                        <div class="text-center">
+                            <button type="button" class="btn btn-info btn-lg" data-toggle="collapse" data-target="#collapseForm">Add review</button>
+                        </div>
+                        <div class="container-fluid collapse mb-5 mt-3" id="collapseForm">
+                            <form action="/campgrounds/<%= camp.id %>/comments?_method=post" method="POST">
+                                <div class="container">
+                                    <fieldset class="form-group">
+                                        <label for="text">Comment:</label>
+                                        <textarea type="text" name="comment[text]" id="text" class="form-control" cols="30" rows="3"></textarea>
+                                    </fieldset>
+                                    <fieldset class="form-group text-center mb-0 mt-5">
+                                        <button class="btn btn-lg btn-primary btn-block">Submit</button>
+                                    </fieldset>
+                                </div>
+                            </form>
+                        </div>
                     </div>
-                    <div class="container-fluid collapse mb-5 mt-3" id="collapseForm">
-                        <form action="/campgrounds/<%= camp.id %>/comments?_method=post" method="POST">
-                            <div class="container">
-                                <fieldset class="form-group">
-                                    <label for="text">Comment:</label>
-                                    <textarea type="text" name="comment[text]" id="text" class="form-control"></textarea>
-                                </fieldset>
-                                <fieldset class="form-group text-center mb-0 mt-5">
-                                    <button class="btn btn-lg btn-primary btn-block">Submit</button>
-                                </fieldset>
-                            </div>
-                        </form>
-                    </div>
-                </div>
+                <% } %>
             </div>
         </div>
     </div>
 </div>
+
+<script src="/scripts/main.js"></script>
 
 <%- include("../partials/footer") %> 

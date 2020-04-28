@@ -5,6 +5,7 @@ const expressSession = require("express-session");
 const passport = require("passport");
 const passportLocal = require("passport-local");
 const methodOverride = require("method-override");
+const flash = require("connect-flash");
 const userModel = require("./models/user");
 const seedDB = require("./seed");
 const app = express();
@@ -20,6 +21,7 @@ app.use(passport.initialize());
 app.use(passport.session());
 app.use(express.static(__dirname + "/public"));
 app.use(bodyParser.urlencoded({extended: true}));
+app.use(flash());
 
 mongoose.connect("mongodb://localhost/campgrounds", { useNewUrlParser: true, useUnifiedTopology: true, useFindAndModify: false });
 passport.use(new passportLocal(userModel.authenticate()));
@@ -27,12 +29,14 @@ passport.serializeUser(userModel.serializeUser());
 passport.deserializeUser(userModel.deserializeUser());
 
 app.use((req, res, next) => { // called in all routes as middleware
+    res.locals.error = req.flash("error");
+    res.locals.success = req.flash("success");
     res.locals.user = req.user;
     return next();
 });
 app.use("/", indexRoutes);
 app.use("/campgrounds", campgroundsRoutes);
-app.use("/campgrounds", commentsRoutes);
+app.use("/campgrounds/:id/comments", commentsRoutes);
 
 seedDB();
 
