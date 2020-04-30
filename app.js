@@ -25,6 +25,10 @@ app.use(flash());
 
 mongoose.connect("mongodb+srv://leugim:t1WN0xd1NNjeanms@cluster0-mocjr.mongodb.net/test?retryWrites=true&w=majority", { 
     useNewUrlParser: true, useUnifiedTopology: true, useFindAndModify: false
+}).then(() => {
+    console.log("CONNECTED TO BD !!!!!!!!!!!!!!!");
+}).catch( err => {
+    console.log("ERROR", err.message);
 });
 passport.use(new passportLocal(userModel.authenticate()));
 passport.serializeUser(userModel.serializeUser());
