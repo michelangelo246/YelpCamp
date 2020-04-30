@@ -23,10 +23,10 @@ app.use(express.static(__dirname + "/public"));
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(flash());
 
-mongoose.connect("mongodb+srv://leugim:t1WN0xd1NNjeanms@cluster0-mocjr.mongodb.net/test?retryWrites=true&w=majority", { 
+mongoose.connect(process.env.DATABASEURL, { 
     useNewUrlParser: true, useUnifiedTopology: true, useFindAndModify: false
 }).then(() => {
-    console.log("CONNECTED TO BD !!!!!!!!!!!!!!!");
+    console.log("CONNECTED TO DB!");
 }).catch( err => {
     console.log("ERROR", err.message);
 });
@@ -45,6 +45,7 @@ app.use("/campgrounds", campgroundsRoutes);
 app.use("/campgrounds/:id/comments", commentsRoutes);
 
 seedDB();
+console.log(process.env.DATABASEURL);
 
 app.listen(process.env.PORT, process.env.IP, () => {
     console.log("YelpCamp server running on port 3000");
