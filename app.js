@@ -23,7 +23,9 @@ app.use(express.static(__dirname + "/public"));
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(flash());
 
-mongoose.connect("mongodb://localhost/campgrounds", { useNewUrlParser: true, useUnifiedTopology: true, useFindAndModify: false });
+mongoose.connect("mongodb+srv://leugim:t1WN0xd1NNjeanms@cluster0-mocjr.mongodb.net/test?retryWrites=true&w=majority", { 
+    useNewUrlParser: true, useUnifiedTopology: true, useFindAndModify: false
+});
 passport.use(new passportLocal(userModel.authenticate()));
 passport.serializeUser(userModel.serializeUser());
 passport.deserializeUser(userModel.deserializeUser());
