@@ -1,9 +1,22 @@
 <%- include("../partials/header") %> 
 
-<h1>Landing Page!</h1>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/modernizr/2.8.3/modernizr.min.js" integrity="sha256-0rguYS0qgS6L4qVzANq4kjxPLtvnp5nn2nB5G1lWRv4=" crossorigin="anonymous"></script>
 
-<p>Welcome to YelpCamp.</p>
+<div class="container text-center text-light landing-header d-flex align-items-center h-75">
+    <div class="container-fluid">
+        <h1>Welcome to YelpCamp!</h1>
+        <a class="btn btn-success btn-lg" href="/campgrounds">View All Campgrounds</a>
+    </div>
+</div>
 
-<a href="/campgrounds">View all campgrounds</a>
+<div class="container-fluid px-0">
+    <% camps.forEach(camp => { %>
+        <img src="<%= camp.image %>" class="img-slide">
+    <% }) %>
+</div>
 
-<%- include("../partials/footer") %> 
+<script src="/scripts/main.js"></script>
+<script src="/scripts/landing.js"></script>
+
+</body>
+</html>

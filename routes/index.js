@@ -1,11 +1,14 @@
 const express = require("express");
 const passport = require("passport");
 const userModel = require("../models/user");
+const campgroundModel = require("../models/campgrounds");
 
 const router = express.Router({ mergeParams: true });
 
-router.get("/", (req, res) => {
-    res.render("campgrounds/landing");
+router.get("/", async (req, res) => {
+    const camps = await campgroundModel.find({}).limit(5);
+    console.log(camps);
+    res.render("campgrounds/landing", { camps: camps });
 });
 
 router.get("/register", (req, res) => {

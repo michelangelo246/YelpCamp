@@ -1,5 +1,4 @@
-<%- include("../partials/header") %>
-
+<%- include("../partials/header") %> 
 
 <div class="container-fluid">
     <div class="row">
@@ -20,7 +19,7 @@
                             <h2><strong><%= camp.name %></strong></h2>
                         </div>
                         <div class="col-md-6 text-md-right text-muted">
-                            <h3>$<%= 9.00 %>/night</h3>
+                            <h3>$<%= camp.price %>/night</h3>
                             <% if(!user || camp.author.username != user.username) { %>
                                 <p class="text-muted"><em>Submitted by <%= camp.author.username %></em></p>
                             <% } %>
@@ -119,7 +118,5 @@
         </div>
     </div>
 </div>
-
-<script src="/scripts/main.js"></script>
 
 <%- include("../partials/footer") %> 

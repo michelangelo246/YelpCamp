@@ -16,54 +16,61 @@
     
         <!-- Jquery -->
         <script src="https://code.jquery.com/jquery-3.5.0.js" integrity="sha256-r/AaFHrszJtwpe+tHyNi/XCfMxYpbsRg2Uqn0x3s2zc=" crossorigin="anonymous"></script>
+
+        <link rel="stylesheet" href="/stylesheets/app.css">
     </head>
     <body>
+        <div class="navbar-spacer"></div>
+        <nav class="navbar navbar-expand-sm navbar-light fixed-top">
+            <a class="navbar-brand" href="/"><i class="fas fa-campground"></i> YelpCamp</a>
+            
+            <button class="navbar-toggler d-lg-none" type="button" data-toggle="collapse" data-target="#collapsibleNavId" aria-controls="collapsibleNavId"
+                aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
         
-    <nav class="navbar navbar-expand-sm navbar-light bg-light">
-        <a class="navbar-brand" href="#">Navbar</a>
-        
-        <button class="navbar-toggler d-lg-none" type="button" data-toggle="collapse" data-target="#collapsibleNavId" aria-controls="collapsibleNavId"
-            aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-    
-        <div class="collapse navbar-collapse" id="collapsibleNavId">
-            <ul class="navbar-nav ml-auto mt-2 mt-lg-0">
-                <% if(!user) { %>
+            <div class="collapse navbar-collapse" id="collapsibleNavId">
+                <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
                     <li class="nav-item">
-                        <a class="nav-link" href="/login">Sign In<span class="sr-only">(current)</span></a>
+                        <a class="nav-link" href="/campgrounds">Campgrounds</a>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="/register">Sign Up</a>
-                    </li>
-                <% } else { %>
-                    <li class="nav-item">
-                        <a class="nav-link text-muted"><strong><span class="text-success"><%= user.username %></span></strong></a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="/logout">Logout</a>
-                    </li>
-                <% } %>
-            </ul>
-        </div>
-    </nav>
-    <% if(error.length > 0) { %>
-        <div class="container-fluid text-center mt-2">
-            <div class="alert alert-warning alert-dismissible fade show" role="alert">
-                <%= error %>
-                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                  <span aria-hidden="true">&times;</span>
-                </button>
+                </ul>
+                <ul class="navbar-nav ml-auto mt-2 mt-lg-0">
+                    <% if(!user) { %>
+                        <li class="nav-item">
+                            <a class="nav-link" href="/login">Sign In</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="/register">Sign Up</a>
+                        </li>
+                    <% } else { %>
+                        <li class="nav-item">
+                            <a class="nav-link text-muted"><strong><span class="text-success"><%= user.username %></span></strong></a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="/logout">Logout</a>
+                        </li>
+                    <% } %>
+                </ul>
             </div>
-        </div>
-    <% } %>
-    <% if(success.length > 0) { %>
-        <div class="container-fluid text-center mt-2">
-            <div class="alert alert-success alert-dismissible fade show" role="alert">
-                <%= success %>
-                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                  <span aria-hidden="true">&times;</span>
-                </button>
+        </nav>
+        <% if(error.length > 0) { %>
+            <div class="container-fluid text-center mt-2">
+                <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                    <%= error %>
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                      <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
             </div>
-        </div>
-    <% } %>
+        <% } %>
+        <% if(success.length > 0) { %>
+            <div class="container-fluid text-center mt-2">
+                <div class="alert alert-success alert-dismissible fade show" role="alert">
+                    <%= success %>
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                      <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+            </div>
+        <% } %>

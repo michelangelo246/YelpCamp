@@ -9,6 +9,11 @@ router.get("/", async (req, res) => {
     res.render("campgrounds/index", { campgrounds: camps });
 });
 
+router.get("/getFive", async (req, res) => {
+    const camps = await campgroundModel.find({}).limit(5);
+    res.send(camps);
+});
+
 router.get("/new", middleware.isLoggedIn, (req, res) => {
     res.render("campgrounds/new");
 });

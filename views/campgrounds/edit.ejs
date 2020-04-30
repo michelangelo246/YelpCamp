@@ -14,6 +14,10 @@
                         <input type="text" name="campground[name]" id="name" class="form-control" value="<%= camp.name %>">
                     </fieldset>
                     <fieldset class="form-group">
+                        <label for="price">Price:</label>
+                        <input type="number" name="campground[price]" id="price" class="form-control" min="0.01" step="0.01" value="<%= camp.price %>">
+                    </fieldset>
+                    <fieldset class="form-group">
                         <label for="image">Image url:</label>
                         <input type="text" name="campground[image]" id="image" class="form-control" value="<%= camp.image %>">
                     </fieldset>
